@@ -4,13 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmartHome Cairns | Smart Home Installation</title>
-  <meta
-    name="description"
-    content="Modern smart home installation website template for a smart home services business."
-  />
+  <meta name="description" content="Modern smart home installation website template for a smart home services business." />
   <style>
     :root{
       --bg:#0b1020;
+      --panel:#121933;
+      --panel-2:#182144;
       --text:#eef3ff;
       --muted:#b5c1e0;
       --line:rgba(255,255,255,.10);
@@ -19,6 +18,7 @@
       --accent:#c297ff;
       --shadow:0 20px 50px rgba(0,0,0,.28);
       --radius:22px;
+      --radius-sm:14px;
       --max:1200px;
     }
 
@@ -109,7 +109,6 @@
       align-items:center;
       gap:12px;
     }
-
     .btn{
       display:inline-flex;
       align-items:center;
@@ -186,6 +185,7 @@
     .stat span{color:var(--muted);font-size:14px}
 
     .hero-card{
+      position:relative;
       min-height:560px;
       border-radius:28px;
       background:
@@ -196,33 +196,76 @@
       overflow:hidden;
       padding:22px;
     }
-    .hero-visual{
-      display:grid;
-      grid-template-rows:1.8fr .9fr;
-      gap:14px;
-      height:100%;
-      min-height:516px;
+    .hero-house{
+      position:absolute;
+      inset:auto 18px 18px 18px;
+      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:24px;
+      padding:24px;
     }
-    .hero-main,
-    .hero-small-card{
+    .smart-panel{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+      margin-bottom:16px;
+    }
+    .chip{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:18px;
+      padding:14px;
+    }
+    .chip small{display:block;color:var(--muted);margin-bottom:8px}
+    .switch{
+      height:10px;border-radius:999px;background:#28365f;position:relative;overflow:hidden
+    }
+    .switch::after{
+      content:"";position:absolute;inset:0 36% 0 0;background:linear-gradient(90deg,var(--brand),var(--brand-2));border-radius:999px
+    }
+    .mock-home{
+      aspect-ratio: 1.05 / 1;
+      border-radius:22px;
+      margin-top:10px;
+      background:
+        radial-gradient(circle at 20% 18%, rgba(126,231,135,.30), transparent 15%),
+        radial-gradient(circle at 80% 22%, rgba(88,166,255,.25), transparent 18%),
+        linear-gradient(180deg, #21305f 0%, #111a37 100%);
+      border:1px solid rgba(255,255,255,.10);
       position:relative;
       overflow:hidden;
-      border-radius:22px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.03);
     }
-    .hero-main img,
-    .hero-small-card img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
+    .room{
+      position:absolute;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.04);
+      border-radius:14px;
     }
-    .hero-small-grid{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:14px;
-      min-height:160px;
+    .room::after{
+      content:attr(data-name);
+      position:absolute;
+      top:10px;left:12px;
+      font-size:12px;color:#dbe6ff;
+    }
+    .r1{left:7%;top:10%;width:38%;height:34%}
+    .r2{right:7%;top:10%;width:38%;height:25%}
+    .r3{left:7%;bottom:10%;width:28%;height:34%}
+    .r4{left:39%;bottom:10%;width:22%;height:34%}
+    .r5{right:7%;bottom:10%;width:30%;height:34%}
+    .dot{
+      width:12px;height:12px;border-radius:50%;position:absolute;
+      background:linear-gradient(135deg,var(--brand-2),#d8ff92);
+      box-shadow:0 0 0 6px rgba(126,231,135,.14), 0 0 24px rgba(126,231,135,.45);
+      animation:pulse 2.1s infinite;
+    }
+    .d1{left:22%;top:25%}
+    .d2{right:23%;top:22%}
+    .d3{left:18%;bottom:25%}
+    .d4{left:49%;bottom:26%}
+    .d5{right:20%;bottom:27%}
+    @keyframes pulse {
+      0%,100%{transform:scale(1);opacity:1}
+      50%{transform:scale(1.15);opacity:.8}
     }
 
     .grid-3{
@@ -453,20 +496,17 @@
       .hero-grid, .split, .pricing, .gallery, .contact-wrap, .grid-3{
         grid-template-columns:1fr;
       }
-      .hero-card{min-height:auto}
-      .hero-visual{min-height:auto}
-      .hero-small-grid{min-height:140px}
+      .hero-card{min-height:480px}
       .popular{transform:none}
       .gallery-main{min-height:320px}
       .gallery-stack > div{min-height:260px}
     }
-
     @media (max-width: 640px){
       .hero-stats{grid-template-columns:1fr}
-      .hero-small-grid{grid-template-columns:1fr 1fr}
       form{grid-template-columns:1fr}
       .section{padding:72px 0}
       .nav-cta .btn-secondary{display:none}
+      .hero-card{min-height:430px}
     }
   </style>
 </head>
@@ -530,18 +570,38 @@
         </div>
 
         <div class="hero-card">
-          <div class="hero-visual">
-            <div class="hero-main">
-              <img src="images/hero-dashboard.jpg.png" alt="Smart home dashboard and controls" />
+          <div class="smart-panel">
+            <div class="chip">
+              <small>Living room lights</small>
+              <div class="switch"></div>
             </div>
+            <div class="chip">
+              <small>Security mode</small>
+              <div class="switch"></div>
+            </div>
+            <div class="chip">
+              <small>Climate automation</small>
+              <div class="switch"></div>
+            </div>
+            <div class="chip">
+              <small>Goodnight scene</small>
+              <div class="switch"></div>
+            </div>
+          </div>
 
-            <div class="hero-small-grid">
-              <div class="hero-small-card">
-                <img src="images/living-room.jpg.png" alt="Smart lighting and voice control" />
-              </div>
-              <div class="hero-small-card">
-                <img src="images/door-sensor.jpg.png" alt="Smart door sensor and lock" />
-              </div>
+          <div class="hero-house">
+            <div class="mock-home">
+              <div class="room r1" data-name="Living"></div>
+              <div class="room r2" data-name="Kitchen"></div>
+              <div class="room r3" data-name="Bedroom"></div>
+              <div class="room r4" data-name="Hall"></div>
+              <div class="room r5" data-name="Outdoor"></div>
+
+              <div class="dot d1" title="Smart light active"></div>
+              <div class="dot d2" title="Sensor active"></div>
+              <div class="dot d3" title="Smart blind active"></div>
+              <div class="dot d4" title="Door sensor active"></div>
+              <div class="dot d5" title="Camera active"></div>
             </div>
           </div>
         </div>
@@ -750,18 +810,18 @@
         <div class="gallery" style="margin-top:34px;">
           <div class="gallery-main">
             <div class="shot" data-label="Living room smart lighting + voice control">
-              <img src="images/living-room.jpg.png" alt="Living room smart lighting and voice control" />
+              <img src="images/living-room.jpg" alt="Living room smart lighting and voice control" />
             </div>
           </div>
           <div class="gallery-stack">
             <div>
               <div class="shot" data-label="Smart door sensors + instant alerts">
-                <img src="images/door-sensor.jpg.png" alt="Smart door sensor with instant alert on phone" />
+                <img src="images/door-sensor.jpg" alt="Smart door sensor with instant alert on phone" />
               </div>
             </div>
             <div>
               <div class="shot" data-label="Control everything from your phone">
-                <img src="images/phone-control.jpg.png" alt="Smart home controls on a phone screen" />
+                <img src="images/phone-control.jpg" alt="Smart home controls on a phone screen" />
               </div>
             </div>
           </div>
