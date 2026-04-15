@@ -4,12 +4,13 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SmartHome Cairns | Smart Home Installation</title>
-  <meta name="description" content="Modern smart home installation website template for a smart home services business." />
+  <meta
+    name="description"
+    content="Modern smart home installation website template for a smart home services business."
+  />
   <style>
     :root{
       --bg:#0b1020;
-      --panel:#121933;
-      --panel-2:#182144;
       --text:#eef3ff;
       --muted:#b5c1e0;
       --line:rgba(255,255,255,.10);
@@ -18,7 +19,6 @@
       --accent:#c297ff;
       --shadow:0 20px 50px rgba(0,0,0,.28);
       --radius:22px;
-      --radius-sm:14px;
       --max:1200px;
     }
 
@@ -109,6 +109,7 @@
       align-items:center;
       gap:12px;
     }
+
     .btn{
       display:inline-flex;
       align-items:center;
@@ -185,7 +186,6 @@
     .stat span{color:var(--muted);font-size:14px}
 
     .hero-card{
-      position:relative;
       min-height:560px;
       border-radius:28px;
       background:
@@ -196,39 +196,33 @@
       overflow:hidden;
       padding:22px;
     }
-    .hero-house{
-      position:absolute;
-      inset:auto 18px 18px 18px;
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:24px;
-      padding:24px;
+    .hero-visual{
+      display:grid;
+      grid-template-rows:1.8fr .9fr;
+      gap:14px;
+      height:100%;
+      min-height:516px;
     }
-    .hero-img{
+    .hero-main,
+    .hero-small-card{
+      position:relative;
+      overflow:hidden;
+      border-radius:22px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+    }
+    .hero-main img,
+    .hero-small-card img{
       width:100%;
       height:100%;
       object-fit:cover;
-      border-radius:18px;
       display:block;
     }
-    .smart-panel{
+    .hero-small-grid{
       display:grid;
-      grid-template-columns:repeat(2,1fr);
+      grid-template-columns:1fr 1fr;
       gap:14px;
-      margin-bottom:16px;
-    }
-    .chip{
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.08);
-      border-radius:18px;
-      padding:14px;
-    }
-    .chip small{display:block;color:var(--muted);margin-bottom:8px}
-    .switch{
-      height:10px;border-radius:999px;background:#28365f;position:relative;overflow:hidden
-    }
-    .switch::after{
-      content:"";position:absolute;inset:0 36% 0 0;background:linear-gradient(90deg,var(--brand),var(--brand-2));border-radius:999px
+      min-height:160px;
     }
 
     .grid-3{
@@ -459,17 +453,20 @@
       .hero-grid, .split, .pricing, .gallery, .contact-wrap, .grid-3{
         grid-template-columns:1fr;
       }
-      .hero-card{min-height:480px}
+      .hero-card{min-height:auto}
+      .hero-visual{min-height:auto}
+      .hero-small-grid{min-height:140px}
       .popular{transform:none}
       .gallery-main{min-height:320px}
       .gallery-stack > div{min-height:260px}
     }
+
     @media (max-width: 640px){
       .hero-stats{grid-template-columns:1fr}
+      .hero-small-grid{grid-template-columns:1fr 1fr}
       form{grid-template-columns:1fr}
       .section{padding:72px 0}
       .nav-cta .btn-secondary{display:none}
-      .hero-card{min-height:430px}
     }
   </style>
 </head>
@@ -533,11 +530,19 @@
         </div>
 
         <div class="hero-card">
-          
-          </div>
+          <div class="hero-visual">
+            <div class="hero-main">
+              <img src="images/hero-dashboard.jpg.png" alt="Smart home dashboard and controls" />
+            </div>
 
-          <div class="hero-house">
-            <img src="images/hero-dashboard.jpg.png" alt="Smart home dashboard and controls" class="hero-img" />
+            <div class="hero-small-grid">
+              <div class="hero-small-card">
+                <img src="images/living-room.jpg.png" alt="Smart lighting and voice control" />
+              </div>
+              <div class="hero-small-card">
+                <img src="images/door-sensor.jpg.png" alt="Smart door sensor and lock" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
