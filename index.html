@@ -66,7 +66,6 @@
       backdrop-filter:blur(10px);
     }
 
-    /* Header */
     header{
       position:sticky;
       top:0;
@@ -140,7 +139,6 @@
     }
     .mobile-toggle{display:none}
 
-    /* Hero */
     .hero{padding:70px 0 30px}
     .hero-grid{
       display:grid;
@@ -270,7 +268,6 @@
       50%{transform:scale(1.15);opacity:.8}
     }
 
-    /* Cards */
     .grid-3{
       display:grid;
       grid-template-columns:repeat(3,1fr);
@@ -294,7 +291,6 @@
       font-size:24px;
     }
 
-    /* Why / process */
     .split{
       display:grid;
       grid-template-columns:1fr 1fr;
@@ -325,7 +321,6 @@
       margin-top:2px;
     }
 
-    /* Packages */
     .pricing{
       display:grid;
       grid-template-columns:repeat(3,1fr);
@@ -357,7 +352,6 @@
     .features{display:grid;gap:12px;margin:20px 0 24px}
     .features div{color:#dfe7fb}
 
-    /* Gallery */
     .gallery{
       display:grid;
       grid-template-columns:1.15fr .85fr;
@@ -372,28 +366,39 @@
       min-height:240px;
       position:relative;
     }
+    .gallery-main{min-height:500px}
     .gallery-stack{
-      display:grid;gap:22px;
+      display:grid;
+      gap:22px;
     }
     .shot{
-      position:absolute;inset:0;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.04)),
-        radial-gradient(circle at 22% 30%, rgba(88,166,255,.22), transparent 18%),
-        radial-gradient(circle at 70% 18%, rgba(126,231,135,.22), transparent 16%),
-        radial-gradient(circle at 60% 72%, rgba(194,151,255,.18), transparent 20%);
+      position:absolute;
+      inset:0;
+      overflow:hidden;
+    }
+    .shot img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
     }
     .shot::after{
       content:attr(data-label);
-      position:absolute;left:20px;bottom:18px;
-      font-size:18px;font-weight:700;
+      position:absolute;
+      left:20px;
+      bottom:18px;
+      font-size:18px;
+      font-weight:700;
       letter-spacing:.2px;
+      color:#fff;
       background:rgba(10,15,28,.60);
       backdrop-filter:blur(10px);
-      padding:10px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.08)
+      padding:10px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      z-index:2;
     }
 
-    /* Testimonials */
     .testimonial{
       display:flex;
       flex-direction:column;
@@ -410,7 +415,6 @@
     }
     .stars{letter-spacing:2px;color:#ffd86b}
 
-    /* Contact */
     .contact-wrap{
       display:grid;
       grid-template-columns:.9fr 1.1fr;
@@ -486,7 +490,6 @@
       flex-wrap:wrap;
     }
 
-    /* Responsive */
     @media (max-width: 980px){
       nav ul{display:none}
       .mobile-toggle{display:inline-flex}
@@ -495,7 +498,8 @@
       }
       .hero-card{min-height:480px}
       .popular{transform:none}
-      .gallery-main{min-height:280px}
+      .gallery-main{min-height:320px}
+      .gallery-stack > div{min-height:260px}
     }
     @media (max-width: 640px){
       .hero-stats{grid-template-columns:1fr}
@@ -657,8 +661,7 @@
       <div class="container split">
         <div class="card" style="padding:32px;">
           <span class="tag">Why homeowners in Cairns choose us</span>
-          <h2 class="section-title" style="margin-top:16px;"></h2>
-          <p class="section-copy">
+          <p class="section-copy" style="margin-top:16px;">
             We focus on making your home easier to live in — not just adding gadgets.
           </p>
 
@@ -696,18 +699,16 @@
 
         <div class="card" style="padding:32px;">
           <span class="tag">How it works</span>
-          <h2 class="section-title" style="margin-top:16px;"></h2>
-          <p class="section-copy">
+          <p class="section-copy" style="margin-top:16px;">
             Simple 4-step process
           </p>
-          
-          <h2 class="section-title" style="margin-top:16px;"></h2>
+
           <div class="list">
             <div class="list-item">
               <div class="tick">1</div>
               <div>
                 <strong>Free consultation</strong><br />
-                We talk through your home, what you want to achieve, and your budget — either over the phone or on-site..
+                We talk through your home, what you want to achieve, and your budget — either over the phone or on-site.
               </div>
             </div>
             <div class="list-item">
@@ -720,14 +721,14 @@
             <div class="list-item">
               <div class="tick">3</div>
               <div>
-                <strong>Installation & setup</strong><br />
+                <strong>Installation &amp; setup</strong><br />
                 We install the devices, connect everything, and set up automations so your home works exactly how you want.
               </div>
             </div>
             <div class="list-item">
               <div class="tick">4</div>
               <div>
-                <strong>Handover & training</strong><br />
+                <strong>Handover &amp; training</strong><br />
                 We show you how to use everything step-by-step so you feel confident using your smart home.
               </div>
             </div>
@@ -748,7 +749,7 @@
         <div class="pricing" style="margin-top:34px;">
           <div class="price-card">
             <h3>Starter</h3>
-            <div class="price">$299 <span></span></div>
+            <div class="price">$299</div>
             <p class="section-copy">Perfect if you want to start small with smart lighting or plugs in one or two rooms.</p>
             <div class="features">
               <div>✓ App setup and account configuration</div>
@@ -756,27 +757,25 @@
               <div>✓ Basic voice assistant setup (Alexa / Google)</div>
               <div>✓ Simple routines (on/off, schedules)</div>
               <div>✓ Quick training so you can use everything confidently</div>
-              <div>Devices are not included in the above prices and will be quoted based on your home and requirements</div>
-
             </div>
+            <p class="form-note">Devices are not included and will be quoted separately.</p>
             <a href="#contact" class="btn btn-secondary">Enquire Now</a>
           </div>
 
           <div class="price-card popular">
-            <div class="ribbon">MOST POPULAR - FULL HOME EXPERIENCE</div>
+            <div class="ribbon">MOST POPULAR</div>
             <h3>Home Upgrade</h3>
-            <div class="price">$699 <span></span></div>
+            <div class="price">$699</div>
             <p class="section-copy">Ideal for homeowners who want a proper smart home setup across multiple rooms.</p>
             <div class="features">
               <div>✓ Multiple rooms configured</div>
-              <div>✓ Smart Lighting + sensors</div>
+              <div>✓ Smart lighting + sensors</div>
               <div>✓ Voice control (Alexa / Google / Siri)</div>
               <div>✓ Custom automations (motion, alerts, routines)</div>
               <div>✓ Notifications (doors, motion, etc.)</div>
               <div>✓ Post-install support</div>
-              <div>Devices are not included in the above prices and will be quoted based on your home and requirements</div>
-
             </div>
+            <p class="form-note">Devices are not included and will be quoted separately.</p>
             <a href="#contact" class="btn btn-primary">Book Consultation</a>
           </div>
 
@@ -791,9 +790,8 @@
               <div>✓ Remote access & dashboards</div>
               <div>✓ Fully customised scenes</div>
               <div>✓ Ongoing support options</div>
-              <div>Devices are not included in the above prices and will be quoted based on your home and requirements</div>
-
             </div>
+            <p class="form-note">Devices are not included and will be quoted separately.</p>
             <a href="#contact" class="btn btn-secondary">Request Quote</a>
           </div>
         </div>
@@ -811,11 +809,21 @@
 
         <div class="gallery" style="margin-top:34px;">
           <div class="gallery-main">
-            <div class="shot" data-label="Living room smart lighting + voice control"></div>
+            <div class="shot" data-label="Living room smart lighting + voice control">
+              <img src="images/living-room.jpg" alt="Living room smart lighting and voice control" />
+            </div>
           </div>
           <div class="gallery-stack">
-            <div><div class="shot" data-label="Smart door sensors + instant alerts"></div></div>
-            <div><div class="shot" data-label="Control everything from your phone"></div></div>
+            <div>
+              <div class="shot" data-label="Smart door sensors + instant alerts">
+                <img src="images/door-sensor.jpg" alt="Smart door sensor with instant alert on phone" />
+              </div>
+            </div>
+            <div>
+              <div class="shot" data-label="Control everything from your phone">
+                <img src="images/phone-control.jpg" alt="Smart home controls on a phone screen" />
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -867,7 +875,7 @@
           <span class="tag">Ready to start?</span>
           <h2 class="section-title" style="margin-top:16px;">Get your smart home set up today</h2>
           <p class="section-copy">
-            Tell us what you need and we’ll help you design the perfect smart home setup — no obligation. Whether you want smart lighting, security, voice control, or a full home setup — we’ll guide you every step of the way. Prefer to talk? Call or message us directly 👇
+            Tell us what you need and we’ll help you design the perfect smart home setup — no obligation. Whether you want smart lighting, security, voice control, or a full home setup — we’ll guide you every step of the way. Prefer to talk? Call or message us directly.
           </p>
 
           <div class="contact-list">
