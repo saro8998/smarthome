@@ -37,4 +37,7 @@ From the repository root, run `python -m http.server 8080` and open `http://loca
 
 ## Verification
 
-Static checks confirm unique IDs, valid internal links and local media paths, ten detailed choices and valid JavaScript. The prior builder integration was browser-checked for selection, removal, clearing, saved package restoration and layout at mobile and tablet widths. The visual update receives its own browser check before handover.
+Static checks confirm unique IDs, valid internal links and local media paths, ten detailed choices and valid JavaScript. The prior builder integration was browser-checked for selection, removal, clearing, saved package restoration and layout at mobile and tablet widths. The published visual update was checked on desktop, mobile (375px usable width) and tablet (805px usable width) with no horizontal overflow. All four demos and the 32-second tour played and reached playback-ready state. The tour shows its on-screen benefit captions and pauses when closed. A service-card link opens and plays its matching demo. Adding climate from the gallery updates the photo card, AC checkbox and both wish-list summaries; mobile image-tile selection also updates the enquiry. The mobile menu, mobile tour fit and clear-all action were checked. No live form submission was made.
+
+
+![Photo-led service preview](docs/smarthome-visual-1790849379789.jpg)
