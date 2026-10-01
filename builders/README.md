@@ -34,3 +34,5 @@ Verified on 1 October 2026:
 - The homeowner link opens the separate customer focused website.
 
 No test enquiry was submitted. Delivery through the existing Formspree account has not been tested in this update.
+
+Desktop preview: [builders website](docs/smarthome-builders-1790855111794.jpg).
