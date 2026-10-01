@@ -1,46 +1,40 @@
 # SmartHome Cairns redesign
 
-Review the redesign at https://saro8998.github.io/smarthome/redesign/.
+Live review: https://saro8998.github.io/smarthome/redesign/
 
-This is a dependency-free, responsive static site. The existing homepage remains at the repository root for comparison. The redesign is marked `noindex` until it becomes the main site.
+A responsive, dependency-free static website. The original homepage remains at the repository root. The redesign is marked `noindex` until it becomes the main homepage.
+
+## Visual experience
+
+- A 32-second home tour opens from the hero, combining four existing demonstrations with short on-screen captions. It is intentionally silent and downloads only when played.
+- All four eight-second demos appear in a visible two-column gallery, stacking on smaller screens. Each has a poster, native playback controls, a direct link, an error fallback and an add-to-plan button.
+- Six photo-led service cards use short benefit captions. Four offer direct playback links to their matching demonstrations.
+- Ten illustrated feature choices feed one shared wish list, alongside the service cards and videos. The wish list persists between visits and carries into the enquiry form.
+- Five additional photos are stored locally. Their authors, source pages and licence are documented in [MEDIA-CREDITS.md](MEDIA-CREDITS.md). Existing large PNGs have web-optimised copies for the redesign.
+- Images below the hero load lazily. Videos do not autoplay or preload on page load. Playing a clip pauses any other clip; gallery clips pause when scrolled out of view. Closing the tour or hiding the page pauses playback.
+
+The media illustrates possible setups; it is not represented as a portfolio of completed installations or a guarantee of device compatibility.
 
 ## Files
 
-- `index.html`: page content, existing pricing, lead form and accessible controls.
-- `styles.css`: responsive layout, typography and reduced-motion support.
-- `app.js`: illustrative home scenes, video tabs, one shared wish list and enquiry handling.
-- `assets/`: favicon and video poster frames extracted from the original demonstration clips.
+- `index.html`: page content, picture tiles, videos, native tour dialog and enquiry form.
+- `styles.css`: base design, responsive layout and accessibility styles.
+- `visual.css`: image-led cards, video gallery and tour dialog.
+- `app.js`: scene controls, playback, menu, shared wish list and enquiry handling.
+- `assets/`: local images, original demo posters and the captioned home tour.
+- `scripts/build-tour.py`: reproducible tour build from the existing root clips (requires ffmpeg).
+- `preview.html`: separate mobile, tablet and desktop review frame.
 
-The photos and four MP4 clips reference the original assets one directory above. No video is automatically downloaded or played on page load. Videos have native playback controls and direct file links.
+## Wish list and enquiries
 
-## Enquiries
+Motion lighting, smart switches, smart door lock, doorbell camera, AC control, garage control, good night routine, robot vacuum, laundry notification and movie mode are preserved from the earlier feature-selection page. AC control uses the existing `Climate control` key, and repeated choices share one selection set.
 
-The enquiry form uses the existing site's Formspree endpoint: `https://formspree.io/f/xjgqbbdq`. Selected features and packages are included as `selected_features` and `selected_package`. Contact details are not stored locally. Only the non-personal wish-list selection is saved in the visitor's browser. On submission errors, form values remain in place for retry. A honeypot field helps with basic spam filtering.
+The form uses the existing Formspree endpoint `https://formspree.io/f/xjgqbbdq`. The complete wish list and package use the `selected_features` and `selected_package` fields. Only non-personal selections are saved locally; contact details are not. Submission errors preserve entered details. The form also supports standard HTML POST without JavaScript. No live enquiry has been sent during testing, so inbox delivery is unverified.
 
-## Integrated feature builder
+## Local review and publishing
 
-The `#builder` section incorporates all ten detailed interests from the earlier `feature-selection.html` concept: motion lighting, smart switches, smart door lock, doorbell camera, AC control, garage control, good night routine, robot vacuum, laundry notification and movie mode. Its grouped choices and live summary use the redesign's existing visual style. The original concept page remains available.
+From the repository root, run `python -m http.server 8080` and open `http://localhost:8080/redesign/`. GitHub Pages publishes the redesign folder alongside the original homepage. No new hosting service or build step is needed. To adopt it as the main homepage later, update asset paths and remove `noindex`.
 
-Video demos, broad solution cards, detailed checkboxes and both summaries share one selection set. AC control uses the existing `Climate control` key; garage control and the good night routine also use consistent keys wherever they appear. Adding, removing or clearing a choice updates every corresponding control, while package selection is tracked separately. The saved browser wish list accepts the extra options without discarding existing valid choices. The custom quote link opens the existing enquiry form and includes the complete wish list; it does not use the old concept's email link.
+## Verification
 
-The form also supports standard HTML POST submission when JavaScript is unavailable. No fabricated reviews, customer counts or performance guarantees were added. The hero controls are explicitly labelled as a demonstration.
-
-## Local preview
-
-Run `python -m http.server 8080` from the repository root, then visit `http://localhost:8080/redesign/`.
-
-## Publishing
-
-The repository's existing GitHub Pages deployment publishes the `redesign/` folder alongside the original homepage. No build tooling or extra service is required. To adopt this as the main homepage later, adjust the asset paths and remove the preview's `noindex` tag.
-
-## Review and verification
-
-Open `preview.html` to review the site in mobile, tablet and desktop frames. The preview wrapper is separate from the customer-facing site.
-
-Verified in a browser: all four original videos reach playback-ready state; hero scene controls update; the mobile menu opens and closes on navigation; feature selection, removal and clearing work; package choices appear in the enquiry area. Desktop, mobile (375px usable width) and tablet (805px usable width) layouts were checked for horizontal clipping. Required form fields are present. No live enquiry was submitted, so actual inbox delivery has not been tested.
-
-![Desktop design preview](docs/smarthome-preview-1790813722846.jpg)
-
-Builder integration verified in the published site: detailed choices match the enquiry summary; switching video tabs updates the add/remove action; removing climate control through its video unchecks AC control; adding the good night demo checks its builder option. Reloading retains the wish list and selected package. Clear all resets both. The quote link reaches the enquiry area with its selections. Builder tiles and summary fit mobile (375px) and tablet (805px) widths without horizontal overflow. No live form submission was made.
-
-![Integrated builder preview](docs/smarthome-builder-1790831484002.jpg)
+Static checks confirm unique IDs, valid internal links and local media paths, ten detailed choices and valid JavaScript. The prior builder integration was browser-checked for selection, removal, clearing, saved package restoration and layout at mobile and tablet widths. The visual update receives its own browser check before handover.

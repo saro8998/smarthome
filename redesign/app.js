@@ -59,78 +59,70 @@ $$('[data-scene].scene-button').forEach(button => {
   });
 });
 
-const demos = {
-  lighting: {file: '../smart-lights.mp4.mp4', poster: './assets/lighting-poster.jpg', label: 'Smart lighting', feature: 'Smart lighting', action: 'Add lighting to my plan', description: 'Set the mood from the sofa. Adjust your lights with a tap.', number: '01'},
-  climate: {file: '../remote-ac-smart-home.mp4.mp4', poster: './assets/climate-poster.jpg', label: 'Climate control', feature: 'Climate control', action: 'Add climate to my plan', description: 'A cooler welcome. Switch on your AC before you arrive home.', number: '02'},
-  garage: {file: '../garage-control.mp4.mp4', poster: './assets/garage-poster.jpg', label: 'Garage control', feature: 'Garage control', action: 'Add garage to my plan', description: 'Arrive on your terms. Open the garage from your phone.', number: '03'},
-  goodnight: {file: '../good-night-smart-home.mp4.mp4', poster: './assets/goodnight-poster.jpg', label: 'Good night routine', feature: 'Good night routine', action: 'Add this routine to my plan', description: 'Wind down with one routine for your lights, comfort and security.', number: '04'}
-};
-const video = $('#demo-video');
-const playButton = $('#video-play');
-const tabs = $$('.demo-tab');
-let currentDemo = 'lighting';
-let videoRevision = 0;
-function updatePlayButton() {
-  playButton.hidden = !video.paused && !video.ended;
-  playButton.setAttribute('aria-label', `${video.ended ? 'Replay' : 'Play'} ${demos[currentDemo].label.toLowerCase()} demo`);
+// Every demo is visible; only the one the visitor chooses starts downloading.
+const featureVideos = $$('.feature-video');
+const tourVideo = $('#tour-video');
+const allVideos = [...featureVideos, tourVideo];
+function pauseOtherVideos(active) {
+  allVideos.forEach(item => { if (item !== active) item.pause(); });
 }
-async function playDemo() {
-  const revision = videoRevision;
-  try { await video.play(); }
-  catch (error) {
-    // An aborted play is normal when someone selects a different clip.
-    if (error.name !== 'AbortError' && revision === videoRevision) updatePlayButton();
+async function playVideo(item) {
+  try { await item.play(); }
+  catch { /* Native controls and the direct link remain available. */ }
+}
+featureVideos.forEach(item => {
+  const card = item.closest('.film-card');
+  const play = card.querySelector('.video-play');
+  const error = card.querySelector('.video-error');
+  function updatePlay() {
+    play.hidden = Boolean(item.error) || (!item.paused && !item.ended);
+    const name = item.getAttribute('aria-label').replace(' demonstration', '').toLowerCase();
+    play.setAttribute('aria-label', `${item.ended ? 'Replay' : 'Play'} ${name} demo`);
   }
-}
-function selectDemo(button) {
-  const key = button.dataset.demo;
-  if (key === currentDemo) return;
-  videoRevision += 1;
-  video.pause();
-  currentDemo = key;
-  const demo = demos[key];
-  video.poster = demo.poster;
-  video.src = demo.file;
-  video.setAttribute('aria-label', `${demo.label} demonstration`);
-  $('#video-description').textContent = demo.description;
-  $('#video-number').textContent = `${demo.number} / 04`;
-  $('#video-panel').setAttribute('aria-labelledby', button.id);
-  $('#video-direct-link').href = demo.file;
-  $('#video-error-link').href = demo.file;
-  $('#video-error').hidden = true;
-  tabs.forEach(item => {
-    const active = item === button;
-    item.classList.toggle('active', active);
-    item.setAttribute('aria-selected', String(active));
-    item.tabIndex = active ? 0 : -1;
-  });
-  video.load();
-  updatePlayButton();
-  $('#demo-add-feature').dataset.feature = demo.feature;
-  $('#demo-add-feature').dataset.originalLabel = demo.action;
-  renderPlan();
-}
-tabs.forEach((button, index) => {
-  button.addEventListener('click', () => selectDemo(button));
-  button.addEventListener('keydown', event => {
-    let next;
-    if (event.key === 'ArrowDown' || event.key === 'ArrowRight') next = (index + 1) % tabs.length;
-    else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
-    else if (event.key === 'Home') next = 0;
-    else if (event.key === 'End') next = tabs.length - 1;
-    else return;
-    event.preventDefault();
-    tabs[next].focus();
-    selectDemo(tabs[next]);
-  });
+  play.addEventListener('click', () => playVideo(item));
+  item.addEventListener('play', () => { pauseOtherVideos(item); updatePlay(); });
+  ['pause', 'ended'].forEach(event => item.addEventListener(event, updatePlay));
+  item.addEventListener('error', () => { error.hidden = false; updatePlay(); });
 });
-playButton.addEventListener('click', playDemo);
-['play', 'pause', 'ended'].forEach(event => video.addEventListener(event, updatePlayButton));
-video.addEventListener('error', () => {
-  $('#video-error').hidden = false;
-  playButton.hidden = true;
+$$('[data-watch]').forEach(link => link.addEventListener('click', event => {
+  const card = document.getElementById(`demo-${link.dataset.watch}`);
+  if (!card) return;
+  event.preventDefault();
+  history.replaceState(null, '', `#${card.id}`);
+  card.scrollIntoView({behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start'});
+  const item = card.querySelector('video');
+  item.focus({preventScroll: true});
+  playVideo(item);
+}));
+const tourDialog = $('#home-tour-dialog');
+$$('[data-tour]').forEach(button => button.addEventListener('click', () => {
+  tourDialog.showModal();
+  document.body.classList.add('tour-open');
+  playVideo(tourVideo);
+}));
+$('#close-tour').addEventListener('click', () => tourDialog.close());
+$('.tour-explore').addEventListener('click', () => tourDialog.close());
+tourDialog.addEventListener('close', () => {
+  tourVideo.pause();
+  document.body.classList.remove('tour-open');
 });
-document.addEventListener('visibilitychange', () => { if (document.hidden) video.pause(); });
+tourDialog.addEventListener('click', event => {
+  if (event.target !== tourDialog) return;
+  const bounds = tourDialog.getBoundingClientRect();
+  if (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom) tourDialog.close();
+});
+tourVideo.addEventListener('play', () => pauseOtherVideos(tourVideo));
+tourVideo.addEventListener('error', () => { $('#tour-error').hidden = false; });
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) allVideos.forEach(item => item.pause());
+});
+// Pause a gallery clip when it leaves view; scrolling never starts playback.
+if ('IntersectionObserver' in window) {
+  const videoObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => { if (!entry.isIntersecting) entry.target.pause(); });
+  }, {threshold: 0});
+  featureVideos.forEach(item => videoObserver.observe(item));
+}
 
 const planKey = 'smarthome-cairns-redesign-plan-v1';
 const allowedFeatures = [...new Set($$('.add-feature, .builder-checkbox').map(control => control.dataset.feature))];
