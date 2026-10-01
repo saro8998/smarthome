@@ -9,4 +9,4 @@ These are the user’s names for the two websites. Use them to identify the righ
 
 The websites have independent page content, styles and scripts. The builder website reuses the customer site’s optimised media and the repository’s original videos. The original root website and `feature-selection.html` are also retained.
 
-The business operates in Cairns and surrounding suburbs. Both websites use the existing Formspree enquiry destination, with different subjects and source labels so the business can distinguish builder enquiries.
+The business operates in Cairns and surrounding suburbs. Both websites use the existing Formspree enquiry destination, with different enquiry subjects and an additional source label for builder enquiries.

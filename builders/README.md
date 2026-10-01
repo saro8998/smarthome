@@ -24,4 +24,13 @@ Media sources: [MEDIA-CREDITS.md](MEDIA-CREDITS.md).
 
 ## Validation
 
-Static asset/link checks and browser review are recorded here after publishing. No test enquiry is submitted to the live form.
+Verified on 1 October 2026:
+
+- JavaScript syntax and all local media, SVG references, anchors, image alternatives and form labels pass checks.
+- Live desktop page reviewed at 1348px; tablet and mobile previews reviewed at 805px and 375px. No horizontal overflow.
+- All eight images load. All four demos and the 32-second tour play, one video at a time. The tour pauses on close and returns focus to its trigger.
+- Mobile navigation opens and closes. The phone-sized tour dialog fits the viewport. Builder FAQ disclosures expand.
+- Selecting Whole-home Vision on desktop and Connected Comfort on mobile carries the option into the enquiry. Required name, company and email fields retain native validation.
+- The homeowner link opens the separate customer focused website.
+
+No test enquiry was submitted. Delivery through the existing Formspree account has not been tested in this update.
