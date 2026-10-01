@@ -8,7 +8,7 @@ This is a dependency-free, responsive static site. The existing homepage remains
 
 - `index.html`: page content, existing pricing, lead form and accessible controls.
 - `styles.css`: responsive layout, typography and reduced-motion support.
-- `app.js`: illustrative home scenes, video tabs, wish-list selection and enquiry handling.
+- `app.js`: illustrative home scenes, video tabs, one shared wish list and enquiry handling.
 - `assets/`: favicon and video poster frames extracted from the original demonstration clips.
 
 The photos and four MP4 clips reference the original assets one directory above. No video is automatically downloaded or played on page load. Videos have native playback controls and direct file links.
@@ -16,6 +16,12 @@ The photos and four MP4 clips reference the original assets one directory above.
 ## Enquiries
 
 The enquiry form uses the existing site's Formspree endpoint: `https://formspree.io/f/xjgqbbdq`. Selected features and packages are included as `selected_features` and `selected_package`. Contact details are not stored locally. Only the non-personal wish-list selection is saved in the visitor's browser. On submission errors, form values remain in place for retry. A honeypot field helps with basic spam filtering.
+
+## Integrated feature builder
+
+The `#builder` section incorporates all ten detailed interests from the earlier `feature-selection.html` concept: motion lighting, smart switches, smart door lock, doorbell camera, AC control, garage control, good night routine, robot vacuum, laundry notification and movie mode. Its grouped choices and live summary use the redesign's existing visual style. The original concept page remains available.
+
+Video demos, broad solution cards, detailed checkboxes and both summaries share one selection set. AC control uses the existing `Climate control` key; garage control and the good night routine also use consistent keys wherever they appear. Adding, removing or clearing a choice updates every corresponding control, while package selection is tracked separately. The saved browser wish list accepts the extra options without discarding existing valid choices. The custom quote link opens the existing enquiry form and includes the complete wish list; it does not use the old concept's email link.
 
 The form also supports standard HTML POST submission when JavaScript is unavailable. No fabricated reviews, customer counts or performance guarantees were added. The hero controls are explicitly labelled as a demonstration.
 

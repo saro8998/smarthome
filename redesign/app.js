@@ -60,10 +60,10 @@ $$('[data-scene].scene-button').forEach(button => {
 });
 
 const demos = {
-  lighting: {file: '../smart-lights.mp4.mp4', poster: './assets/lighting-poster.jpg', label: 'Smart lighting', description: 'Set the mood from the sofa. Adjust your lights with a tap.', number: '01'},
-  climate: {file: '../remote-ac-smart-home.mp4.mp4', poster: './assets/climate-poster.jpg', label: 'Climate control', description: 'A cooler welcome. Switch on your AC before you arrive home.', number: '02'},
-  garage: {file: '../garage-control.mp4.mp4', poster: './assets/garage-poster.jpg', label: 'Garage control', description: 'Arrive on your terms. Open the garage from your phone.', number: '03'},
-  goodnight: {file: '../good-night-smart-home.mp4.mp4', poster: './assets/goodnight-poster.jpg', label: 'Good night routine', description: 'Wind down with one routine for your lights, comfort and security.', number: '04'}
+  lighting: {file: '../smart-lights.mp4.mp4', poster: './assets/lighting-poster.jpg', label: 'Smart lighting', feature: 'Smart lighting', action: 'Add lighting to my plan', description: 'Set the mood from the sofa. Adjust your lights with a tap.', number: '01'},
+  climate: {file: '../remote-ac-smart-home.mp4.mp4', poster: './assets/climate-poster.jpg', label: 'Climate control', feature: 'Climate control', action: 'Add climate to my plan', description: 'A cooler welcome. Switch on your AC before you arrive home.', number: '02'},
+  garage: {file: '../garage-control.mp4.mp4', poster: './assets/garage-poster.jpg', label: 'Garage control', feature: 'Garage control', action: 'Add garage to my plan', description: 'Arrive on your terms. Open the garage from your phone.', number: '03'},
+  goodnight: {file: '../good-night-smart-home.mp4.mp4', poster: './assets/goodnight-poster.jpg', label: 'Good night routine', feature: 'Good night routine', action: 'Add this routine to my plan', description: 'Wind down with one routine for your lights, comfort and security.', number: '04'}
 };
 const video = $('#demo-video');
 const playButton = $('#video-play');
@@ -106,6 +106,9 @@ function selectDemo(button) {
   });
   video.load();
   updatePlayButton();
+  $('#demo-add-feature').dataset.feature = demo.feature;
+  $('#demo-add-feature').dataset.originalLabel = demo.action;
+  renderPlan();
 }
 tabs.forEach((button, index) => {
   button.addEventListener('click', () => selectDemo(button));
@@ -130,7 +133,7 @@ video.addEventListener('error', () => {
 document.addEventListener('visibilitychange', () => { if (document.hidden) video.pause(); });
 
 const planKey = 'smarthome-cairns-redesign-plan-v1';
-const allowedFeatures = $$('.add-feature').map(button => button.dataset.feature);
+const allowedFeatures = [...new Set($$('.add-feature, .builder-checkbox').map(control => control.dataset.feature))];
 const allowedPackages = $$('.package-choice').map(button => button.dataset.package);
 const selectedFeatures = new Set();
 let selectedPackage = '';
@@ -167,6 +170,9 @@ function renderPlan() {
     button.setAttribute('aria-label', `${added ? 'Remove' : 'Add'} ${button.dataset.feature.toLowerCase()} ${added ? 'from' : 'to'} my plan`);
     button.querySelector('use').setAttribute('href', added ? '#i-check' : '#i-plus');
   });
+  $$('.builder-checkbox').forEach(checkbox => {
+    checkbox.checked = selectedFeatures.has(checkbox.dataset.feature);
+  });
   $('.selection-count').textContent = String(choices.length);
   $('.selection-count').setAttribute('aria-label', `${choices.length} selected features`);
   $('#plan-status').textContent = choices.length ? `${choices.length} ${choices.length === 1 ? 'idea' : 'ideas'} in your plan. Your home is taking shape.` : 'A few ideas or a whole wish list. Make it yours.';
@@ -174,41 +180,52 @@ function renderPlan() {
   $('#package-input').value = selectedPackage || 'Not sure yet';
   $('#empty-plan').hidden = choices.length > 0 || !!selectedPackage;
   $('#clear-plan').hidden = !choices.length && !selectedPackage;
-  const chips = $('#selected-features');
-  chips.replaceChildren();
-  choices.forEach(feature => {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'feature-chip';
-    button.setAttribute('aria-label', `Remove ${feature.toLowerCase()} from my plan`);
-    button.append(document.createTextNode(feature), icon('close'));
-    button.addEventListener('click', () => {
-      selectedFeatures.delete(feature);
-      renderPlan();
-      toast(`${feature} removed from your plan.`);
-      // The clicked chip has been removed; retain a meaningful focus target.
-      ($('#selected-features button') || $('#clear-plan:not([hidden])') || $('#name')).focus({preventScroll: true});
+  $('#builder-empty').hidden = choices.length > 0 || !!selectedPackage;
+  $('#builder-clear-plan').hidden = !choices.length && !selectedPackage;
+  $('#builder-selection-status').textContent = choices.length
+    ? `${choices.length} ${choices.length === 1 ? 'idea' : 'ideas'} in your wish list`
+    : selectedPackage ? 'A package to start from' : 'Your wish list is ready to begin.';
+  ['#selected-features', '#builder-selected-features'].forEach(selector => {
+    const chips = $(selector);
+    chips.replaceChildren();
+    choices.forEach(feature => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'feature-chip';
+      button.setAttribute('aria-label', `Remove ${feature.toLowerCase()} from my plan`);
+      button.append(document.createTextNode(feature), icon('close'));
+      button.addEventListener('click', () => {
+        selectedFeatures.delete(feature);
+        renderPlan();
+        toast(`${feature} removed from your plan.`);
+        // Keep keyboard focus in the summary the visitor is currently using.
+        const fallback = selector.startsWith('#builder') ? $('.builder-quote-link') : $('#name');
+        ($(`${selector} button`) || fallback).focus({preventScroll: true});
+      });
+      chips.append(button);
     });
-    chips.append(button);
   });
-  const packageElement = $('#selected-package');
-  packageElement.replaceChildren();
-  packageElement.hidden = !selectedPackage;
-  if (selectedPackage) {
-    const label = document.createElement('span');
-    label.textContent = selectedPackage;
-    const remove = document.createElement('button');
-    remove.type = 'button';
-    remove.setAttribute('aria-label', 'Remove selected package');
-    remove.append(icon('close'));
-    remove.addEventListener('click', () => {
-      selectedPackage = '';
-      renderPlan();
-      toast('Package removed. Your selected features are still in your plan.');
-      ($('#selected-features button') || $('#name')).focus({preventScroll: true});
-    });
-    packageElement.append(label, remove);
-  }
+  ['#selected-package', '#builder-selected-package'].forEach(selector => {
+    const packageElement = $(selector);
+    packageElement.replaceChildren();
+    packageElement.hidden = !selectedPackage;
+    if (selectedPackage) {
+      const label = document.createElement('span');
+      label.textContent = selectedPackage;
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.setAttribute('aria-label', 'Remove selected package');
+      remove.append(icon('close'));
+      remove.addEventListener('click', () => {
+        selectedPackage = '';
+        renderPlan();
+        toast('Package removed. Your selected features are still in your plan.');
+        const fallback = selector.startsWith('#builder') ? $('.builder-quote-link') : $('#name');
+        fallback.focus({preventScroll: true});
+      });
+      packageElement.append(label, remove);
+    }
+  });
   $$('.package-choice').forEach(button => {
     button.setAttribute('aria-pressed', String(button.dataset.package === selectedPackage));
   });
@@ -221,6 +238,13 @@ $$('.add-feature').forEach(button => button.addEventListener('click', () => {
   renderPlan();
   toast(`${feature} ${added ? 'added to' : 'removed from'} your plan.`);
 }));
+$$('.builder-checkbox').forEach(checkbox => checkbox.addEventListener('change', () => {
+  const feature = checkbox.dataset.feature;
+  const added = checkbox.checked;
+  if (added) selectedFeatures.add(feature); else selectedFeatures.delete(feature);
+  renderPlan();
+  toast(`${feature} ${added ? 'added to' : 'removed from'} your plan.`);
+}));
 $$('.package-choice').forEach(button => button.addEventListener('click', () => {
   selectedPackage = button.dataset.package;
   renderPlan();
@@ -228,13 +252,13 @@ $$('.package-choice').forEach(button => button.addEventListener('click', () => {
   $('#name').focus({preventScroll: true});
   toast('Package added. Let’s talk about the details.');
 }));
-$('#clear-plan').addEventListener('click', () => {
+$$('#clear-plan, #builder-clear-plan').forEach(button => button.addEventListener('click', () => {
   selectedFeatures.clear();
   selectedPackage = '';
   renderPlan();
-  $('#name').focus({preventScroll: true});
+  (button.id === 'builder-clear-plan' ? $('.builder-checkbox') : $('#name')).focus({preventScroll: true});
   toast('Your plan has been cleared.');
-});
+}));
 renderPlan();
 
 const form = $('#quote-form');
