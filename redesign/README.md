@@ -26,3 +26,11 @@ Run `python -m http.server 8080` from the repository root, then visit `http://lo
 ## Publishing
 
 The repository's existing GitHub Pages deployment publishes the `redesign/` folder alongside the original homepage. No build tooling or extra service is required. To adopt this as the main homepage later, adjust the asset paths and remove the preview's `noindex` tag.
+
+## Review and verification
+
+Open `preview.html` to review the site in mobile, tablet and desktop frames. The preview wrapper is separate from the customer-facing site.
+
+Verified in a browser: all four original videos reach playback-ready state; hero scene controls update; the mobile menu opens and closes on navigation; feature selection, removal and clearing work; package choices appear in the enquiry area. Desktop, mobile (375px usable width) and tablet (805px usable width) layouts were checked for horizontal clipping. Required form fields are present. No live enquiry was submitted, so actual inbox delivery has not been tested.
+
+![Desktop design preview](docs/smarthome-preview-1790813722846.jpg)
