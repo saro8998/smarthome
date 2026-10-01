@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow">
+<title>SmartHome Cairns — Builders focused preview</title>
+<link rel="icon" href="../redesign/assets/favicon.svg" type="image/svg+xml">
+<style>
+*{box-sizing:border-box}body{margin:0;background:#e6e9e0;font:14px system-ui,sans-serif;color:#20392e}header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 22px;border-bottom:1px solid #c6d0bd;background:#f5f4ed}h1{font-size:14px;margin:0;font-weight:600}nav{display:flex;gap:6px}button,a{font:inherit;color:inherit}button{border:1px solid #bdc9b2;border-radius:6px;background:transparent;padding:8px 12px;cursor:pointer}button[aria-pressed=true]{background:#20392e;color:white;border-color:#20392e}a{font-size:12px;text-underline-offset:3px}.frame-wrap{padding:22px;display:flex;justify-content:center;overflow:auto;height:calc(100dvh - 68px)}iframe{width:390px;max-width:100%;height:100%;min-height:500px;border:0;border-radius:10px;background:#f5f4ed;box-shadow:0 4px 30px #10211720;flex:none}button:focus-visible,a:focus-visible{outline:3px solid #718b5c;outline-offset:3px}@media(max-width:600px){header{flex-wrap:wrap;padding:12px 16px}h1{width:100%}.frame-wrap{padding:12px;height:calc(100dvh - 110px)}nav button{font-size:12px;padding:7px 10px}}
+</style>
+</head>
+<body><header><h1>SmartHome Cairns · Builders focused</h1><nav aria-label="Preview width"><button type="button" data-width="390" aria-pressed="true">Mobile</button><button type="button" data-width="820" aria-pressed="false">Tablet</button><button type="button" data-width="1280" aria-pressed="false">Desktop</button></nav><a href="./" target="_blank" rel="noopener">Open full website ↗</a></header><div class="frame-wrap"><iframe id="site-preview" src="./" title="SmartHome Cairns builders responsive website preview"></iframe></div><script>document.querySelectorAll('[data-width]').forEach(button=>button.addEventListener('click',()=>{document.querySelector('#site-preview').style.width=button.dataset.width+'px';document.querySelectorAll('[data-width]').forEach(item=>item.setAttribute('aria-pressed',String(item===button)))}));</script></body>
+</html>
